@@ -1,0 +1,723 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI Onboarding Hub – Premium Ad v2</title>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+
+:root {
+  --ink:        #0b1120;
+  --blue:       #1d6aff;
+  --blue-mid:   #3b82f6;
+  --blue-soft:  #eff6ff;
+  --blue-dim:   rgba(29,106,255,0.11);
+  --green:      #10b981;
+  --amber:      #f59e0b;
+  --slate:      #64748b;
+  --line:       #e2e8f0;
+  --bg:         #f8fafc;
+  --white:      #ffffff;
+  --card-sh:    0 2px 16px rgba(15,23,42,0.08), 0 1px 3px rgba(15,23,42,0.05);
+
+  /* Dark panel */
+  --dk:         #070d1c;
+  --dk-card:    rgba(255,255,255,0.052);
+  --dk-border:  rgba(255,255,255,0.10);
+  --dk-text:    rgba(255,255,255,0.87);
+  --dk-muted:   rgba(255,255,255,0.40);
+  --dk-line:    rgba(255,255,255,0.065);
+}
+
+html, body {
+  width:1200px; height:630px;
+  overflow:hidden;
+  background:var(--bg);
+}
+body {
+  font-family:'Plus Jakarta Sans', sans-serif;
+  color:var(--ink);
+  position:relative;
+}
+
+/* ─── BACKGROUND (left side only) ─── */
+.bg-dots {
+  position:absolute; left:0; top:0;
+  width:510px; height:100%; pointer-events:none;
+  background-image: radial-gradient(circle, #c8d5e8 1px, transparent 1px);
+  background-size: 26px 26px;
+  opacity:.32;
+}
+.bg-beam {
+  position:absolute; top:-140px; left:-110px;
+  width:700px; height:700px; border-radius:50%;
+  background: radial-gradient(circle, rgba(29,106,255,0.055) 0%, transparent 62%);
+  pointer-events:none;
+}
+
+/* ─── FRAME ─── */
+.frame {
+  position:absolute; inset:0;
+  display:flex; flex-direction:row;
+  overflow:hidden;
+}
+
+/* ═══════════════════════════════════════
+   LEFT PANEL — WHITE
+═══════════════════════════════════════ */
+.left {
+  flex: 0 0 510px;
+  padding: 46px 50px 42px 54px;
+  display:flex; flex-direction:column; justify-content:space-between;
+  position:relative; z-index:3;
+  background: var(--white);
+  border-right: 1px solid var(--line);
+}
+
+/* Brand bar */
+.brand-row {
+  display:flex; align-items:center; gap:9px;
+}
+.brand-logo {
+  width:30px; height:30px; border-radius:8px;
+  background: linear-gradient(135deg, #1d6aff 0%, #0ea5e9 100%);
+  display:flex; align-items:center; justify-content:center;
+  font-size:14px; color:#fff; font-weight:700;
+  box-shadow: 0 2px 8px rgba(29,106,255,0.3);
+}
+.brand-name {
+  font-family:'Bricolage Grotesque', sans-serif;
+  font-weight:700; font-size:14px; color:var(--ink);
+  letter-spacing:-.015em;
+}
+.brand-badge {
+  margin-left:auto;
+  background:linear-gradient(135deg,#dbeafe,#eff6ff);
+  color:#1d4ed8;
+  border:1px solid #bfdbfe;
+  border-radius:20px; padding:3px 10px;
+  font-size:9.5px; font-weight:700; letter-spacing:.06em; text-transform:uppercase;
+}
+
+/* ─── Main content ─── */
+.main-content { flex:1; display:flex; flex-direction:column; justify-content:center; padding: 8px 0; }
+
+/* Label pill */
+.product-label {
+  display:inline-flex; align-items:center; gap:7px;
+  background:var(--blue-dim); border:1px solid rgba(29,106,255,0.18);
+  border-radius:6px; padding:4px 11px; width:fit-content;
+  font-size:10.5px; font-weight:700; letter-spacing:.08em; text-transform:uppercase;
+  color:var(--blue); margin-bottom:13px;
+}
+.label-dot {
+  width:5px; height:5px; border-radius:50%;
+  background:var(--blue);
+  box-shadow:0 0 0 2px rgba(29,106,255,0.22);
+  animation: blink 2s ease-in-out infinite;
+}
+@keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.2} }
+
+/* Headline */
+.headline {
+  font-family:'Bricolage Grotesque', sans-serif;
+  font-weight:800; font-size:43px; line-height:1.06;
+  letter-spacing:-.03em; color:var(--ink);
+  margin-bottom:13px;
+}
+.hl-accent {
+  background: linear-gradient(125deg, #1d6aff 0%, #0ea5e9 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Subhead */
+.subhead {
+  font-size:14px; line-height:1.68; color:#5c6e85;
+  max-width:368px; margin-bottom:22px;
+}
+.subhead strong { color:#1e293b; font-weight:600; }
+
+/* Benefits */
+.benefits { display:flex; flex-direction:column; gap:8px; margin-bottom:24px; }
+.benefit {
+  display:flex; align-items:center; gap:11px;
+  padding:9px 13px 9px 11px;
+  border-radius:9px;
+  border:1px solid var(--line);
+  border-left:3px solid transparent;
+  background:var(--bg);
+  position:relative;
+}
+.b-blue  { border-left-color:#1d6aff; background:#f8fbff; border-color:#e5eeff; }
+.b-green { border-left-color:#10b981; background:#f0fdf8; border-color:#d1fae5; }
+.b-amber { border-left-color:#f59e0b; background:#fffbf0; border-color:#fde68a; }
+.benefit-icon {
+  width:26px; height:26px; border-radius:7px;
+  display:flex; align-items:center; justify-content:center;
+  font-size:12px; flex-shrink:0;
+}
+.bi-blue  { background:rgba(29,106,255,.1); }
+.bi-green { background:#d1fae5; }
+.bi-amber { background:#fef3c7; }
+.benefit-text { font-size:12.5px; color:#1e293b; font-weight:500; line-height:1.35; }
+.benefit-text em { color:#64748b; font-style:normal; font-weight:400; }
+
+/* CTA */
+.cta-row { display:flex; align-items:center; gap:13px; margin-bottom:9px; }
+.cta-primary {
+  display:inline-flex; align-items:center; gap:8px;
+  background: linear-gradient(135deg,#1d6aff 0%,#0284c7 100%);
+  color:#fff; border-radius:10px; padding:12px 24px;
+  font-family:'Bricolage Grotesque', sans-serif;
+  font-weight:700; font-size:14px; letter-spacing:-.01em;
+  box-shadow:0 4px 22px rgba(29,106,255,.40), 0 1px 4px rgba(29,106,255,.22);
+  text-decoration:none; white-space:nowrap;
+}
+.cta-arrow { font-size:15px; }
+.cta-ghost {
+  font-size:13px; color:var(--slate); font-weight:500;
+  border-bottom:1px dashed #c8d5e2; padding-bottom:1px;
+}
+.cta-note { font-size:10.5px; color:#94a3b8; letter-spacing:.01em; }
+
+/* Trust row */
+.trust-row {
+  display:flex; align-items:center; gap:13px;
+  padding-top:16px; border-top:1px solid var(--line);
+}
+.trust-avatars { display:flex; }
+.avatar {
+  width:25px; height:25px; border-radius:50%;
+  border:2px solid #fff; margin-right:-7px;
+  font-size:9.5px; display:flex; align-items:center; justify-content:center;
+  font-weight:700; color:#fff;
+}
+.av1{background:#6366f1;} .av2{background:#ec4899;} .av3{background:#f59e0b;} .av4{background:#10b981;}
+.trust-sep { width:1px; height:22px; background:var(--line); flex-shrink:0; }
+.trust-text { font-size:11px; color:var(--slate); line-height:1.5; }
+.trust-text strong { color:#1e293b; font-weight:600; }
+.trust-stars { color:#f59e0b; font-size:10.5px; letter-spacing:1.5px; }
+
+/* ═══════════════════════════════════════
+   RIGHT PANEL — DARK
+═══════════════════════════════════════ */
+.right {
+  flex:1;
+  background: var(--dk);
+  position:relative; overflow:hidden;
+  display:flex; align-items:flex-start; justify-content:center;
+  padding-top:30px;
+}
+
+/* Grid texture */
+.dark-grid {
+  position:absolute; inset:0; pointer-events:none;
+  background-image:
+    linear-gradient(rgba(255,255,255,0.038) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,0.038) 1px, transparent 1px);
+  background-size: 42px 42px;
+}
+
+/* Glow orbs */
+.orb {
+  position:absolute; border-radius:50%; pointer-events:none;
+}
+.orb1 {
+  width:480px; height:480px; top:-100px; right:-80px;
+  background: radial-gradient(circle, rgba(29,106,255,0.16) 0%, transparent 68%);
+}
+.orb2 {
+  width:340px; height:340px; bottom:-100px; left:20px;
+  background: radial-gradient(circle, rgba(16,185,129,0.09) 0%, transparent 70%);
+}
+.orb3 {
+  width:200px; height:200px; top:40%; left:40%;
+  transform:translate(-50%,-50%);
+  background: radial-gradient(circle, rgba(29,106,255,0.06) 0%, transparent 70%);
+}
+
+/* Workflow wrapper */
+.workflow {
+  width:626px; position:relative;
+}
+
+/* Pipeline label */
+.pipeline-label {
+  text-align:center; font-size:9.5px; font-weight:700;
+  letter-spacing:.14em; text-transform:uppercase;
+  color:rgba(255,255,255,0.28); margin-bottom:18px;
+}
+
+/* ─── PIPELINE TRACK ─── */
+.pipeline-track {
+  display:flex; align-items:center; justify-content:center;
+  gap:0; position:relative; margin-bottom:20px;
+  padding:0 20px;
+}
+
+/* Node */
+.pnode {
+  display:flex; flex-direction:column; align-items:center; gap:6px;
+  position:relative; z-index:2;
+}
+.pnode-icon {
+  width:50px; height:50px; border-radius:13px;
+  border:1px solid rgba(255,255,255,0.09);
+  background:rgba(255,255,255,0.055);
+  display:flex; align-items:center; justify-content:center;
+  font-size:20px; position:relative;
+  box-shadow:0 2px 14px rgba(0,0,0,0.35);
+}
+.pnode-icon.done {
+  border-color:rgba(16,185,129,0.42);
+  background:rgba(16,185,129,0.08);
+  box-shadow:0 0 0 3px rgba(16,185,129,0.10), 0 2px 14px rgba(0,0,0,0.4);
+}
+.pnode-icon.active {
+  border-color:rgba(29,106,255,0.48);
+  background:rgba(29,106,255,0.10);
+  box-shadow:0 0 0 3px rgba(29,106,255,0.14), 0 2px 14px rgba(0,0,0,0.4);
+}
+.pnode-icon.pending {
+  border-color:rgba(245,158,11,0.38);
+  background:rgba(245,158,11,0.07);
+}
+.pnode-icon.ai-core {
+  width:62px; height:62px; border-radius:17px;
+  background:linear-gradient(135deg, #1d6aff 0%, #0ea5e9 100%);
+  border:none; font-size:25px;
+  box-shadow:0 0 32px rgba(29,106,255,0.65), 0 0 12px rgba(29,106,255,0.3), 0 4px 16px rgba(0,0,0,0.5);
+  animation: aiPulse 3s ease-in-out infinite;
+}
+@keyframes aiPulse {
+  0%,100% { box-shadow:0 0 32px rgba(29,106,255,0.65), 0 0 12px rgba(29,106,255,0.3), 0 4px 16px rgba(0,0,0,0.5); }
+  50%     { box-shadow:0 0 48px rgba(29,106,255,0.85), 0 0 20px rgba(14,165,233,0.5), 0 4px 16px rgba(0,0,0,0.5); }
+}
+
+.pnode-label {
+  font-size:9.5px; font-weight:700; color:rgba(255,255,255,0.50);
+  letter-spacing:.06em; text-transform:uppercase;
+  text-align:center; white-space:nowrap;
+}
+.pnode-sublabel {
+  font-size:8.5px; color:rgba(255,255,255,0.28); text-align:center; margin-top:-3px;
+}
+
+/* Connector */
+.pconn {
+  flex:1; height:2px; position:relative; z-index:1; min-width:24px;
+}
+.pconn-line {
+  height:1.5px; width:100%;
+  background:linear-gradient(90deg,
+    rgba(255,255,255,0.06) 0%,
+    rgba(29,106,255,0.55) 50%,
+    rgba(255,255,255,0.06) 100%);
+  position:relative; overflow:hidden; border-radius:2px;
+}
+.pconn-dot {
+  position:absolute; top:50%; transform:translateY(-50%);
+  width:6px; height:6px; border-radius:50%;
+  background:#fff;
+  animation: slideDot 2.5s ease-in-out infinite;
+  box-shadow:0 0 10px rgba(56,189,248,1), 0 0 4px rgba(255,255,255,0.9);
+}
+@keyframes slideDot {
+  0%   { left:-10px; opacity:0; }
+  10%  { opacity:1; }
+  90%  { opacity:1; }
+  100% { left:calc(100% + 4px); opacity:0; }
+}
+
+/* Status badge */
+.node-badge {
+  position:absolute; top:-6px; right:-6px;
+  width:15px; height:15px; border-radius:50%;
+  border:1.5px solid #070d1c;
+  display:flex; align-items:center; justify-content:center;
+  font-size:7px;
+}
+.nb-green { background:#10b981; color:#fff; }
+.nb-blue  { background:#1d6aff; color:#fff; }
+.nb-amber { background:#f59e0b; color:#fff; }
+
+/* ─── DASHBOARD CARD (glassmorphism) ─── */
+.dash-card {
+  background: rgba(255,255,255,0.052);
+  border:1px solid rgba(255,255,255,0.10);
+  border-radius:14px;
+  box-shadow:
+    0 8px 40px rgba(0,0,0,0.55),
+    inset 0 1px 0 rgba(255,255,255,0.08);
+  overflow:hidden;
+  margin:0 14px;
+}
+
+/* Topbar */
+.dash-topbar {
+  padding:10px 16px;
+  border-bottom:1px solid rgba(255,255,255,0.07);
+  display:flex; align-items:center; justify-content:space-between;
+  background:rgba(255,255,255,0.025);
+}
+.dash-title { font-size:11.5px; font-weight:600; color:rgba(255,255,255,0.82); letter-spacing:-.01em; }
+.dash-meta  { font-size:9.5px; color:rgba(255,255,255,0.32); }
+.window-dots { display:flex; gap:5px; }
+.wd { width:9px; height:9px; border-radius:50%; }
+.wd-r{background:#ff5f57;} .wd-y{background:#febc2e;} .wd-g{background:#28c840;}
+
+/* Employee rows */
+.dash-rows { padding:7px 12px 10px; }
+.emp-row {
+  display:flex; align-items:center; gap:10px;
+  padding:7px 8px; border-radius:7px;
+  border-bottom:1px solid rgba(255,255,255,0.047);
+}
+.emp-row:last-child { border-bottom:none; }
+.emp-av {
+  width:28px; height:28px; border-radius:50%;
+  font-size:10px; font-weight:700; color:#fff;
+  display:flex; align-items:center; justify-content:center; flex-shrink:0;
+}
+.emp-info { flex:1; }
+.emp-name { font-size:11.5px; font-weight:600; color:rgba(255,255,255,0.82); line-height:1.2; }
+.emp-role { font-size:9.5px; color:rgba(255,255,255,0.34); }
+.progress-wrap { flex:0 0 92px; }
+.progress-label { display:flex; justify-content:space-between; margin-bottom:4px; }
+.progress-txt { font-size:9px; color:rgba(255,255,255,0.32); }
+.progress-pct { font-size:9.5px; font-weight:700; color:rgba(255,255,255,0.72); }
+.progress-bar { height:4px; background:rgba(255,255,255,0.08); border-radius:3px; overflow:hidden; }
+.progress-fill { height:100%; border-radius:3px; }
+.pf-blue  { background:linear-gradient(90deg,#1d6aff,#38bdf8); animation: growBar  1.5s ease forwards; }
+.pf-green { background:linear-gradient(90deg,#10b981,#34d399); animation: growBar2 1.5s ease forwards; }
+.pf-amber { background:linear-gradient(90deg,#f59e0b,#fbbf24); animation: growBar3 1.5s ease forwards; }
+@keyframes growBar  { from{width:0} to{width:72%}  }
+@keyframes growBar2 { from{width:0} to{width:100%} }
+@keyframes growBar3 { from{width:0} to{width:41%}  }
+.emp-status {
+  flex-shrink:0; font-size:9px; font-weight:600;
+  padding:3px 8px; border-radius:5px;
+}
+.es-done { background:rgba(16,185,129,0.15);  color:#6ee7b7; }
+.es-prog { background:rgba(29,106,255,0.15);   color:#93c5fd; }
+.es-new  { background:rgba(245,158,11,0.15);   color:#fcd34d; }
+
+/* Stats footer */
+.dash-stats { display:flex; border-top:1px solid rgba(255,255,255,0.06); }
+.dstat {
+  flex:1; padding:10px 8px; text-align:center;
+  border-right:1px solid rgba(255,255,255,0.06);
+}
+.dstat:last-child { border-right:none; }
+.dstat-num {
+  font-family:'Bricolage Grotesque', sans-serif;
+  font-weight:800; font-size:19px; color:rgba(255,255,255,0.88); line-height:1;
+}
+.dstat-num span { color:#38bdf8; }
+.dstat-lbl { font-size:9px; color:rgba(255,255,255,0.32); margin-top:2px; }
+
+/* ─── BOTTOM CHIPS (3 only) ─── */
+.chips-row {
+  display:flex; gap:9px; margin:11px 14px 0;
+  justify-content:center;
+}
+.chip {
+  display:flex; align-items:center; gap:7px;
+  background:rgba(255,255,255,0.046);
+  border:1px solid rgba(255,255,255,0.088);
+  border-radius:8px; padding:7px 13px;
+}
+.chip-icon { font-size:12px; }
+.chip-val { font-family:'Bricolage Grotesque', sans-serif; font-weight:700; font-size:13.5px; color:rgba(255,255,255,0.85); line-height:1.1; }
+.chip-lbl { font-size:9px; color:rgba(255,255,255,0.36); }
+.chip-badge { font-size:9.5px; color:#34d399; font-weight:700; margin-left:1px; }
+</style>
+</head>
+<body>
+
+<!-- Left-side background effects -->
+<div class="bg-dots"></div>
+<div class="bg-beam"></div>
+
+<div class="frame">
+
+  <!-- ══════════ LEFT PANEL ══════════ -->
+  <div class="left">
+
+    <!-- Brand -->
+    <div class="brand-row">
+      <div class="brand-logo">W</div>
+      <div class="brand-name">Work4flow</div>
+      <div class="brand-badge">AI-Powered</div>
+    </div>
+
+    <!-- Main content -->
+    <div class="main-content">
+
+      <div class="product-label">
+        <div class="label-dot"></div>
+        AI Onboarding Hub
+      </div>
+
+      <div class="headline">
+        Onboard Every<br>
+        Hire in <span class="hl-accent">Minutes</span>,<br>
+        Not Weeks.
+      </div>
+
+      <div class="subhead">
+        Replace manual checklists with <strong>intelligent AI workflows</strong>
+        that assign tasks, send documents, and track every hire —
+        from offer letter to day 90.
+      </div>
+
+      <div class="benefits">
+        <div class="benefit b-blue">
+          <div class="benefit-icon bi-blue">⚡</div>
+          <div class="benefit-text">Cut onboarding time by 70% — <em>automated task routing, zero delays</em></div>
+        </div>
+        <div class="benefit b-green">
+          <div class="benefit-icon bi-green">🎯</div>
+          <div class="benefit-text">Zero drop-offs — <em>AI follows up so your team never has to</em></div>
+        </div>
+        <div class="benefit b-amber">
+          <div class="benefit-icon bi-amber">📊</div>
+          <div class="benefit-text">Real-time visibility — <em>track every hire's progress at a glance</em></div>
+        </div>
+      </div>
+
+      <div class="cta-row">
+        <a class="cta-primary" href="#">
+          Start Free Trial <span class="cta-arrow">→</span>
+        </a>
+        <div class="cta-ghost">Watch Demo</div>
+      </div>
+      <div class="cta-note">No credit card · 14-day free trial · Setup in 4 minutes</div>
+
+    </div>
+
+    <!-- Trust row -->
+    <div class="trust-row">
+      <div class="trust-avatars">
+        <div class="avatar av1">R</div>
+        <div class="avatar av2">S</div>
+        <div class="avatar av3">A</div>
+        <div class="avatar av4">M</div>
+      </div>
+      <div class="trust-sep"></div>
+      <div class="trust-text">
+        <div class="trust-stars">★★★★★</div>
+        Trusted by <strong>2,400+ HR & Ops teams</strong> worldwide
+      </div>
+    </div>
+
+  </div><!-- /left -->
+
+  <!-- ══════════ RIGHT PANEL — DARK ══════════ -->
+  <div class="right">
+
+    <!-- Dark background atmosphere -->
+    <div class="dark-grid"></div>
+    <div class="orb orb1"></div>
+    <div class="orb orb2"></div>
+    <div class="orb orb3"></div>
+
+    <div class="workflow">
+
+      <!-- Pipeline label -->
+      <div class="pipeline-label">Automated Onboarding Pipeline</div>
+
+      <!-- ─── PIPELINE TRACK ─── -->
+      <div class="pipeline-track">
+
+        <div class="pnode">
+          <div class="pnode-icon done">
+            📋
+            <div class="node-badge nb-green">✓</div>
+          </div>
+          <div class="pnode-label">Offer</div>
+          <div class="pnode-sublabel">Signed</div>
+        </div>
+
+        <div class="pconn">
+          <div class="pconn-line"><div class="pconn-dot"></div></div>
+        </div>
+
+        <div class="pnode">
+          <div class="pnode-icon done">
+            📄
+            <div class="node-badge nb-green">✓</div>
+          </div>
+          <div class="pnode-label">Docs</div>
+          <div class="pnode-sublabel">Collected</div>
+        </div>
+
+        <div class="pconn">
+          <div class="pconn-line"><div class="pconn-dot" style="animation-delay:.45s"></div></div>
+        </div>
+
+        <div class="pnode">
+          <div class="pnode-icon ai-core">🤖</div>
+          <div class="pnode-label">AI Engine</div>
+          <div class="pnode-sublabel">Processing</div>
+        </div>
+
+        <div class="pconn">
+          <div class="pconn-line"><div class="pconn-dot" style="animation-delay:.9s"></div></div>
+        </div>
+
+        <div class="pnode">
+          <div class="pnode-icon active">
+            ✅
+            <div class="node-badge nb-blue">⟳</div>
+          </div>
+          <div class="pnode-label">Tasks</div>
+          <div class="pnode-sublabel">Assigned</div>
+        </div>
+
+        <div class="pconn">
+          <div class="pconn-line"><div class="pconn-dot" style="animation-delay:1.35s"></div></div>
+        </div>
+
+        <div class="pnode">
+          <div class="pnode-icon pending">
+            🚀
+            <div class="node-badge nb-amber">!</div>
+          </div>
+          <div class="pnode-label">Day 1</div>
+          <div class="pnode-sublabel">Ready</div>
+        </div>
+
+      </div><!-- /pipeline-track -->
+
+      <!-- ─── DASHBOARD CARD ─── -->
+      <div class="dash-card">
+
+        <div class="dash-topbar">
+          <div class="window-dots">
+            <div class="wd wd-r"></div>
+            <div class="wd wd-y"></div>
+            <div class="wd wd-g"></div>
+          </div>
+          <div class="dash-title">Onboarding Dashboard</div>
+          <div class="dash-meta">March 2026 · 3 Active</div>
+        </div>
+
+        <div class="dash-rows">
+
+          <div class="emp-row">
+            <div class="emp-av" style="background:#6366f1">AK</div>
+            <div class="emp-info">
+              <div class="emp-name">Arjun Kapoor</div>
+              <div class="emp-role">Product Designer</div>
+            </div>
+            <div class="progress-wrap">
+              <div class="progress-label">
+                <span class="progress-txt">Progress</span>
+                <span class="progress-pct">72%</span>
+              </div>
+              <div class="progress-bar">
+                <div class="progress-fill pf-blue" style="width:72%"></div>
+              </div>
+            </div>
+            <div class="emp-status es-prog">In Progress</div>
+          </div>
+
+          <div class="emp-row">
+            <div class="emp-av" style="background:#ec4899">SM</div>
+            <div class="emp-info">
+              <div class="emp-name">Sara Mehta</div>
+              <div class="emp-role">Backend Engineer</div>
+            </div>
+            <div class="progress-wrap">
+              <div class="progress-label">
+                <span class="progress-txt">Progress</span>
+                <span class="progress-pct">100%</span>
+              </div>
+              <div class="progress-bar">
+                <div class="progress-fill pf-green" style="width:100%"></div>
+              </div>
+            </div>
+            <div class="emp-status es-done">Completed ✓</div>
+          </div>
+
+          <div class="emp-row">
+            <div class="emp-av" style="background:#f59e0b">RV</div>
+            <div class="emp-info">
+              <div class="emp-name">Riya Verma</div>
+              <div class="emp-role">Growth Manager</div>
+            </div>
+            <div class="progress-wrap">
+              <div class="progress-label">
+                <span class="progress-txt">Progress</span>
+                <span class="progress-pct">41%</span>
+              </div>
+              <div class="progress-bar">
+                <div class="progress-fill pf-amber" style="width:41%"></div>
+              </div>
+            </div>
+            <div class="emp-status es-new">Day 2</div>
+          </div>
+
+        </div><!-- /dash-rows -->
+
+        <div class="dash-stats">
+          <div class="dstat">
+            <div class="dstat-num">3<span>×</span></div>
+            <div class="dstat-lbl">Faster Ramp-up</div>
+          </div>
+          <div class="dstat">
+            <div class="dstat-num">90<span>%</span></div>
+            <div class="dstat-lbl">Less Manual Work</div>
+          </div>
+          <div class="dstat">
+            <div class="dstat-num">24<span>/7</span></div>
+            <div class="dstat-lbl">AI Always Active</div>
+          </div>
+        </div>
+
+      </div><!-- /dash-card -->
+
+      <!-- ─── BOTTOM CHIPS ─── -->
+      <div class="chips-row">
+        <div class="chip">
+          <div class="chip-icon">🔗</div>
+          <div>
+            <div class="chip-val">50+</div>
+            <div class="chip-lbl">Integrations</div>
+          </div>
+        </div>
+        <div class="chip">
+          <div class="chip-icon">⚡</div>
+          <div>
+            <div class="chip-val">4 min</div>
+            <div class="chip-lbl">Setup Time</div>
+          </div>
+        </div>
+        <div class="chip">
+          <div class="chip-icon">🛡️</div>
+          <div>
+            <div class="chip-val">SOC 2</div>
+            <div class="chip-lbl">Certified</div>
+          </div>
+          <div class="chip-badge">✓ Secure</div>
+        </div>
+        <div class="chip">
+          <div class="chip-icon">📈</div>
+          <div>
+            <div class="chip-val">98%</div>
+            <div class="chip-lbl">Satisfaction</div>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- /workflow -->
+  </div><!-- /right -->
+
+</div><!-- /frame -->
+</body>
+</html>
